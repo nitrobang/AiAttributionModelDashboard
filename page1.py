@@ -71,23 +71,23 @@ for entry in data_eng:
 
 
 
-# List of month names
-month = [calendar.month_name[i][:3] for i in range(1, 13)]
+
 
 
 # List of channel names
 channels = ['Direct', 'Facebook']
-
+# List of month names
+month = [calendar.month_name[i][:3] for i in range(1, 13)]
 # Generate percentage data for Direct channel
 direct_percentages = [20, 22, 25, 24, 28, 30, 32, 33, 34, 35, 36, 38]
-direct_percentages = [x + 30 for x in direct_percentages]
+direct_percentages = [x + 50 for x in direct_percentages]
 
 # Generate more volatile data for Facebook channel
 
 facebook_percentages = [
-    10,40,16,50,13,45,20,35,10,48,15,42
+    20,23,21,50,19,25,20,22,60,30,70,42
 ]  # Generating random data with mean 20 and standard deviation 2
-facebook_percentages = [x - 10 for x in facebook_percentages]
+
 
 # Ensure percentages are within the range of 0 to 100
 direct= np.clip(direct_percentages, 0, 100)
@@ -105,8 +105,8 @@ areadata = {
 
 # Add traces for Direct and Facebook channels with curved lines
 area = go.Figure()
-area.add_trace(go.Scatter(x=areadata['month'], y=areadata['Direct'], mode='lines+markers', fill='tozeroy', name='Direct', line_shape='spline', line=dict(color='rgba(135, 206, 250, 0.7)')))
-area.add_trace(go.Scatter(x=areadata['month'], y=areadata['Facebook'], mode='lines+markers', fill='tonexty', name='Facebook', line_shape='spline', line=dict(color='rgba(135, 206, 250, 0.7)')))
+area.add_trace(go.Scatter(x=areadata['month'], y=areadata['Direct'], mode='lines+markers', fill='tozeroy', name='Facebook', line_shape='spline', line=dict(color='#f2e9ae')))
+area.add_trace(go.Scatter(x=areadata['month'], y=areadata['Facebook'], mode='lines+markers', fill='tonexty', name='Direct', line_shape='spline', line=dict(color='#838df7')))
 area.update_layout(
     plot_bgcolor='rgba(0,0,0,0)',  # Set plot background color to transparent
     paper_bgcolor='rgba(0,0,0,0)'  # Set paper background color to transparent
@@ -131,6 +131,10 @@ def get_color_gradient(values):
         return [colors[0] for _ in values]
     # Assign color based on percentage rank
     return [colors[min(int(value / max_value * (len(colors)-1)), len(colors)-1)] for value in values]
+
+
+
+
 
 
 
@@ -328,12 +332,8 @@ app.layout = html.Div([
                     html.H3("Form Fill by Channel", style={ 'color': 'black', 'text-align': 'center'}),
                     dcc.Graph(
                         id='area-plot',
-        figure=area
-
-
-
-
-                    )],
+                        figure=area
+                        )],
                     style={'backgroundColor': 'white'}  # Change card background color
                 ),
             ])
